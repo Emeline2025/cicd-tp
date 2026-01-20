@@ -23,12 +23,24 @@ jobs:
     runs-on: ubuntu-latest
     needs: install
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: ".nvmrc"
       - name: Lint the code
         run: npm run lint
   test:
     runs-on: ubuntu-latest
     needs: install
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: ".nvmrc"
       - name: Execute TU
         run: npm test
 
