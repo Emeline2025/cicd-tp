@@ -24,9 +24,21 @@ suites (unit, integration, and end-to-end).
 1. Fork the repository:
 2. Install dependencies:
 
-```
+```bash
 npm install
 ```
+
+## Configuration
+
+### Environment Variables
+The project uses the following environment variables (defined in `.env`):
+
+| Variable      | Description                          | Default Value           |
+|---------------|--------------------------------------|-------------------------|
+| `PORT`        | Server Port                          | 3000                    |
+| `NODE_ENV`    | Environment (dev/prod/test)          | development             |
+| `LOG_LEVEL`   | Logging Level (info/error/debug)     | info                    |
+
 
 ## Usage
 
@@ -52,11 +64,53 @@ Run tests with Jest:
 
 ## Linting
 
+The project uses ESLint to maintain high code quality.
+
+### Configuration
+- Configuration file : `.eslintrc.js`
+- Main rules :
+  - `no-unused-vars`: Warns about unused variables
+  - `prefer-const`: Forces the use of `const` whenever possible
+  - `eqeqeq`: Forces the use of `===` instead of `==`
+
+### Usage
+```bash
+# Check the code
+npm run lint
+
+# Automatically fix problems
+npm run lint:fix
 Check code quality:
 
 ```
-npm run lint
+
+
+## Error Handling
+
+The project uses a centralized error middleware to handle errors consistently. Errors are returned in JSON format with a status code and a descriptive message.
+
+### Example error response:
+```json
+{
+  "error": {
+    "message": "Internal Server Error",
+    "status": 500
+  }
+}
 ```
+
+Error Types :
+• 400 Bad Request: Invalid request.
+• 404 Not Found: Route does not exist.
+• 405 Method Not Allowed: HTTP method not supported.
+• 500 Internal Server Error: Server error.
+
+ Execute the tests :
+
+```
+npm test
+```
+
 
 ## Project Structure
 
@@ -79,3 +133,5 @@ npm run lint
 2. Create a feature branch.
 3. Run tests and linting.
 4. Submit a pull request.
+
+
