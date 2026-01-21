@@ -10,12 +10,15 @@ function errorHandler(err, req, res, next) {
 
   // Détermine le code de statut et le message en fonction du type d'erreur
   const statusCode = err.statusCode || 500;
-  const message = statusCode === 500 ? 'Internal Server Error' : err.message;
+  const message = statusCode === 500 && process.env.NODE_ENV === "production"
+    ? "Internal Server Error"
+    : err.message;
 
   res.status(statusCode).json({
     error: {
-      message: message,
-      status: statusCode
+      message,
+      status: statusCode,
+      ...(process.env.NODE_ENV !== "production" && { stack: err.stack }) // Stack trace seulement en dev
     }
   });
 }

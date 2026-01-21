@@ -5,6 +5,9 @@ const errorHandler = require("./middlewares/errorHandler"); // Import du middlew
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware pour parser le JSON (utile pour les requêtes POST)
+app.use(express.json());
+
 app.get("/hello/:name?", (req, res) => {
   const name = req.params.name;
 
@@ -25,12 +28,17 @@ app.use((req, res, next) => {
   if (!req.route) {
     return next();
   }
-  res.status(405).send("Method Not Allowed");
+  // Transmet l'erreur au middleware errorHandler
+  const err = new Error("Method Not Allowed");
+  err.statusCode = 405;
+  next(err);
 });
 
-// Middleware pour les routes inexistantes (404)
-app.use((req, res) => {
-  res.status(404).send("Not Found");
+// Middleware 404 (remplace res.send par next())
+app.use((req, res, next) => {
+  const err = new Error("Not Found");
+  err.statusCode = 404;
+  next(err);  // Passe l'erreur à errorHandler
 });
 
 // Middleware d'erreur centralisé (doit être le dernier middleware)
