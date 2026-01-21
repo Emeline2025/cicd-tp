@@ -1,11 +1,12 @@
 # .github/workflows/ci.yml
 name: CI
 on: 
+  push:
+    branches:
+      - emeline-gha
+      - master
   pull_request:
       branches:
-      - master
-  push:
-     branches:
       - master
 jobs:
   install:
